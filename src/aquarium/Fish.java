@@ -15,20 +15,16 @@ public class Fish {
     public String getName() {
         return name;
     }
-
     public String getColor() {
         return color;
     }
-
     public int getFins() {
         return fins;
     }
 
     @Override
     public String toString() {
-        return String.format("Fish: %s\n" +
-                "Color: %s\n" +
-                "Number of fins: %d\n", name, color, fins);
+        return String.format("Fish: %s\nColor: %s\nNumber of fins: %d", this.getName(), this.getColor(), this.getFins());
     }
 }
 

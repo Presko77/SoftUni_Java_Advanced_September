@@ -7,114 +7,58 @@ public class P01Autumn_Cocktails {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        //дава ми 50/100 ;-;
+        List<Integer> listOfIngredients = Arrays.stream(scanner.nextLine().split("\\s+")).map(Integer::parseInt).collect(Collectors.toList());
 
-        ArrayDeque<Integer> buckets = Arrays.stream(scanner.nextLine().split(" "))
-                .map(Integer::parseInt).collect(Collectors.toCollection(ArrayDeque::new));
+        ArrayDeque<Integer> ingredients = new ArrayDeque<>(listOfIngredients);
 
-        ArrayDeque<Integer> freshness = new ArrayDeque<>();
+        List<Integer> listOfFreshnessLevel = Arrays.stream(scanner.nextLine().split("\\s+")).map(Integer::parseInt).collect(Collectors.toList());
 
-        Arrays.stream(scanner.nextLine().split(" ")).map(Integer::parseInt)
-                .forEach(freshness::push);
+        ArrayDeque<Integer> freshnessLevel = new ArrayDeque<>();
 
+        freshnessLevel.addAll(listOfFreshnessLevel);
 
-        int bucket = buckets.peek();
-        int fresh = freshness.peek();
+        Map<String, Integer> cocktails = new LinkedHashMap<>();
+        cocktails.put("Pear Sour", 150);
+        cocktails.put("The Harvest", 250);
+        cocktails.put("Apple Hinny", 300);
+        cocktails.put("High Fashion", 400);
+        Map<String, Integer> cocktailsIveMade = new TreeMap<>();
 
-        int currentShots = 0;
-        Map<String, Integer> all = new TreeMap<>();
-        int pearSour = 0;
-        int theHarvest = 0;
-        int appleHinny = 0;
-        int highFashion = 0;
-
-        int size = buckets.size();
-
-        while (!(size==0)){
-
-
-
-            int mix = bucket * fresh;
-            if (!buckets.isEmpty()) {
-                bucket = buckets.remove();
+        while (!ingredients.isEmpty() && !freshnessLevel.isEmpty()) {
+            int currentIngredient = ingredients.pop();
+            int currentFreshnessLevel = freshnessLevel.getLast();
+            if (currentIngredient != 0) {
+                freshnessLevel.removeLast();
+                int mix = currentFreshnessLevel * currentIngredient;
+                boolean cocktailMade = false;
+                for (Map.Entry<String, Integer> cocktail : cocktails.entrySet()) {
+                    if (cocktail.getValue() == mix) {
+                        if (!cocktailsIveMade.containsKey(cocktail.getKey())) {
+                            cocktailsIveMade.put(cocktail.getKey(), 1);
+                        } else {
+                            cocktailsIveMade.put(cocktail.getKey(), cocktailsIveMade.get(cocktail.getKey()) + 1);
+                        }
+                        cocktailMade = true;
+                        break;
+                    }
+                }
+                if (!cocktailMade) {
+                    currentIngredient += 5;
+                    ingredients.offer(currentIngredient);
+                }
             }
-            if (!buckets.isEmpty()){
-                bucket = buckets.peek();
-            }
-            if (!freshness.isEmpty()) {
-                fresh = freshness.remove();
-            }
-            if (!freshness.isEmpty()){
-                fresh = freshness.peek();
-            }
-
-
-
-            if (mix == 150){
-                pearSour++;
-                all.put("Pear Sour", pearSour);
-
-            }else if (mix == 250){
-                theHarvest++;
-                all.put("The Harvest",theHarvest);
-
-            }else if (mix == 300){
-                appleHinny++;
-                all.put("Apple Hinny",appleHinny);
-
-            }else if (mix == 400){
-                highFashion++;
-                all.put("High Fashion",highFashion);
-            }
-
-            size--;
         }
-
-        if (appleHinny >=1){
-            currentShots++;
-        }
-        if (highFashion >=1){
-            currentShots++;
-        }
-        if (pearSour >=1){
-            currentShots++;
-        }
-        if (theHarvest >=1){
-            currentShots++;
-        }
-
-//        int ingredients = 0;
-//        int a = 0;
-//        int b = 0;
-//        if (!buckets.isEmpty() && !freshness.isEmpty()){
-//            while (!buckets.isEmpty() && !freshness.isEmpty()){
-//              a =  buckets.peek();
-//               b= freshness.peek();
-//               ingredients = a + b;
-//            }
-//        }
-
-
-        if (currentShots == 4){
+        if (cocktailsIveMade.size() >= 4){
             System.out.println("It's party time! The cocktails are ready!");
-
-            for (Map.Entry<String, Integer> entry : all.entrySet()) {
-                System.out.printf("# %s --> %d%n",entry.getKey(),entry.getValue());
-            }
-
-        }else{
+        }else {
             System.out.println("What a pity! You didn't manage to prepare all cocktails.");
-
-            //Не знам как да го направя
-            int sum = 0;
-            for (Integer element : buckets) {
-                sum = sum+element;
-            }
-            System.out.printf("Ingredients left: %d%n",sum);
-
-            for (Map.Entry<String, Integer> entry : all.entrySet()) {
-                System.out.printf("# %s --> %d%n",entry.getKey(),entry.getValue());
-            }
+        }
+        if (!ingredients.isEmpty()){
+            int ingredientsSum = ingredients.stream().mapToInt(Integer::intValue).sum();
+            System.out.println("Ingredients left: " + ingredientsSum);
+        }
+        for (Map.Entry<String, Integer> cocktail : cocktailsIveMade.entrySet()) {
+            System.out.printf(" # %s --> %d%n", cocktail.getKey(), cocktail.getValue());
         }
     }
 }

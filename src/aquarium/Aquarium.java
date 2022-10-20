@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Aquarium {
-
-    public List<Fish> fishInPool;
+    private List<Fish> fishInPool;
     private String name;
     private int capacity;
     private int size;
@@ -17,6 +16,51 @@ public class Aquarium {
         this.fishInPool = new ArrayList<>();
     }
 
+
+    public void add(Fish fish){
+        boolean isThereSuchFish = false;
+        for (Fish currentFish : this.fishInPool) {
+            if (currentFish.getName().equals(fish.getName())){
+                isThereSuchFish = true;
+                break;
+            }
+        }
+        if (!isThereSuchFish && this.fishInPool.size() < this.capacity){
+            this.fishInPool.add(fish);
+        }
+    }
+
+    public boolean remove(String name){
+        for (Fish currentFish : this.fishInPool) {
+            if (currentFish.getName().equals(name)){
+                this.fishInPool.remove(currentFish);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Fish findFish(String name){
+        Fish fishForReturn = null;
+        for (Fish currentFish : this.fishInPool) {
+            if (currentFish.getName().equals(name)){
+                fishForReturn = currentFish;
+            }
+        }
+        return fishForReturn;
+    }
+
+    public String report(){
+        StringBuilder result = new StringBuilder();
+        result.append(String.format("Aquarium: %s ^ Size: %d", this.name, this.size));
+        this.fishInPool.forEach(fish -> result.append(System.lineSeparator()).append(fish));
+        return result.toString();
+    }
+
+    public int getFishInPool() {
+        return fishInPool.size();
+    }
+
     public String getName() {
         return name;
     }
@@ -25,43 +69,7 @@ public class Aquarium {
         return capacity;
     }
 
-    public int getFishInPool() {
-        int fish = fishInPool.size();
-        return fish;
-    }
-
-
-    public Fish add(Fish fish) {
-        if (!fishInPool.contains(fish) && fishInPool.size() +1 <= capacity){
-            this.fishInPool.add(fish);
-        }
-        return fish;
-    }
-
-    public boolean remove(String name) {
-        for (Fish fish : fishInPool) {
-            if (this.name.equals(name)){
-                this.fishInPool.remove(fish);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Fish findFish(String name) {
-        Fish fish = this.fishInPool.stream()
-                .filter(e -> e.getName().equals(name))
-                .findFirst()
-                .orElse(null);
-        return fish;
-    }
-
-    public String report() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Aquarium: " + this.name + " ^ Size: " + this.size +"\n");
-        for (Fish fish : fishInPool) {
-            sb.append(fish);
-        }
-        return sb.toString().trim();
+    public int getSize() {
+        return size;
     }
 }
