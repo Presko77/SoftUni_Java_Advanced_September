@@ -1,4 +1,4 @@
-package aquarium;
+package Exam_Preparation.aquarium;
 
 import java.util.ArrayList;
 import java.util.List;

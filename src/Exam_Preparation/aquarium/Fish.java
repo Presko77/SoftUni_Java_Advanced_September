@@ -1,4 +1,4 @@
-package aquarium;
+package Exam_Preparation.aquarium;
 
 public class Fish {
 

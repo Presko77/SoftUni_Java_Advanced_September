@@ -1,4 +1,4 @@
-package bakery;
+package Exam_Preparation.bakery;
 
 import java.util.ArrayList;
 import java.util.List;

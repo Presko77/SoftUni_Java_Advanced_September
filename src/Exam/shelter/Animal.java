@@ -1,4 +1,4 @@
-package shelter;
+package Exam.shelter;
 
 public class Animal {
 

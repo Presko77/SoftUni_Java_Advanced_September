@@ -1,4 +1,4 @@
-package bakery;
+package Exam_Preparation.bakery;
 
 public class Employee {
 

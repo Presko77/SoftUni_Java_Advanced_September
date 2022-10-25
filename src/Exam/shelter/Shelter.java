@@ -1,4 +1,4 @@
-package shelter;
+package Exam.shelter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class Shelter {
 
     public String getStatistics() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("The shelter has the following animals:%n"));
+        sb.append(String.format("The Exam.shelter has the following animals:%n"));
 
         for (Animal animal : data) {
             sb.append(animal.getName()).append(" ").append(animal.getCaretaker()).append(System.lineSeparator());

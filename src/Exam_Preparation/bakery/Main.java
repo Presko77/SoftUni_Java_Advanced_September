@@ -1,4 +1,4 @@
-package bakery;
+package Exam_Preparation.bakery;
 
 public class Main {
     public static void main(String[] args) {
